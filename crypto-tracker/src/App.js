@@ -10,24 +10,23 @@ export class App extends Component {
   state = {
     coins: [],
     search: '',
-  } 
-
-  // handle search bar input, setting it to state.
-  handleSearch = function(e) {
-    this.setState({ search: e.target.value})
+    isLoading: 'True',
   }
 
-  // filter coins using search value in state.
-  filterCoins = function(coins) {
-    coins.filter(coin => {
-      return coin.toLowerCase().includes(this.state.search.toLowerCase())
-    })
+  // handle search bar input, setting it to state.
+  handleSearch = function (e) {
+    this.setState({ search: e.target.value })
+  }
+
+  // display chart data for clicked coin
+  displayChart = function(id) {
+    console.log('coin id clicked: ', id)
   }
 
   constructor(props) {
     super(props)
     this.handleSearch = this.handleSearch.bind(this)
-    this.filterCoins = this.filterCoins.bind(this)
+    this.displayChart = this.displayChart.bind(this)
   }
 
   async componentDidMount() {
@@ -47,10 +46,12 @@ export class App extends Component {
           <SearchBar handleSearch={this.handleSearch} />
         </div>
         {
-          this.state.coins.filter(coin => {
+          // Filter coins by what is entered in search bar.  
+          this.state.coins.filter(coin => coin.name.toLowerCase().includes(this.state.search.toLowerCase())).map(coin => {
             return (
               <Coin
                 key={coin.id}
+                id={coin.id}
                 name={coin.name}
                 image={coin.image}
                 symbol={coin.symbol}
@@ -58,6 +59,7 @@ export class App extends Component {
                 marketcap={coin.market_cap}
                 priceChange={coin.price_change_percentage_24h}
                 volume={coin.total_volume}
+                displayChart={this.displayChart}
               />
             )
           })

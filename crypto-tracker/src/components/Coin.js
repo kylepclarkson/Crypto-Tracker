@@ -1,6 +1,11 @@
 import React from 'react'
 
-const Coin = ({ name, image, symbol, price, volume, priceChange, marketcap }) => {
+const Coin = ({ id, name, image, symbol, price, volume, priceChange, marketcap, displayChart }) => {
+
+    const handleView = () => {
+        displayChart(id)
+    }
+
     return (
         <div className="coin-container">
             <div className="coin-row">
@@ -25,6 +30,9 @@ const Coin = ({ name, image, symbol, price, volume, priceChange, marketcap }) =>
                         Mkt Cap: ${marketcap.toLocaleString()}
                     </p>
                 </div>
+                <button onClick={handleView}>
+                    View
+                </button>
             </div>
         </div>
     )
